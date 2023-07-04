@@ -44,6 +44,8 @@ app.use(cors());
 
 app.use(express.static("./"));
 
+app.use(bodyParser.json());
+
 app.listen(8888, function () {
   console.log("App is Ready to print!!");
 });
@@ -204,12 +206,12 @@ async function printfile(req, res) {
   //sendcommand('CLEARBUFFER', true);
   setup(
     {
-      width: "21",
+      width: req.body.width,
       height: "500",
       speed: "4",
       density: "15",
       sensor: "0",
-      vertical: "3mm",
+      vertical: "3",
       offset: "0",
     },
     true
@@ -250,7 +252,7 @@ async function printfile(req, res) {
     const form = new IncomingForm();
 
     form.parse(req, (err, fields, files) => {
-      console.log(files);
+      //console.log(files);
       imageToprintPath = files.fileupload[0].filepath;
       fs.rename(imageToprintPath, imageToprintPath + ".png", (err) => {
         if (err) {
@@ -258,6 +260,7 @@ async function printfile(req, res) {
           res.send("print failed");
         }
       });
+
       exec("wmic printer list full", (err, stdout, stderr) => {
         if (err) {
           // node couldn't execute the command
