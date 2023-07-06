@@ -206,13 +206,14 @@ async function printfile(req, res) {
   //sendcommand('CLEARBUFFER', true);
   setup(
     {
-      width: req.body.width,
+      width: req.query.width,
       height: "500",
-      speed: "4",
+      speed: "3",
       density: "15",
       sensor: "0",
       vertical: "3",
       offset: "0",
+      //quantity: "1"
     },
     true
   );
